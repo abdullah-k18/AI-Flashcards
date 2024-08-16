@@ -83,8 +83,19 @@ export default function Flashcards() {
   }
 
   return (
+    <Box sx={{
+      backgroundImage: 'url(https://static.vecteezy.com/system/resources/previews/022/100/132/non_2x/abstract-pink-color-polygon-background-design-abstract-geometric-origami-style-with-gradient-presentation-website-backdrop-cover-banner-pattern-template-free-vector.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      minHeight: '100vh',
+      width: '100vw',
+      padding: 0,
+      margin: 0,
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
     <Container maxWidth="lg" sx={{ mt: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <AppBar sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
+    <AppBar sx={{ bgcolor: "rgba(255, 255, 255, 0.8)", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
           FlashBook
@@ -110,7 +121,7 @@ export default function Flashcards() {
         <Button
           variant="contained"
           sx={{ 
-            backgroundColor: '#0A4D68', 
+            backgroundColor: '#3f51b5', 
             color: '#FFF4DD', 
             borderRadius: '50%', 
             width: 60, 
@@ -120,7 +131,7 @@ export default function Flashcards() {
             boxShadow: 3,
             position: 'relative',
             '&:hover': {
-              backgroundColor: '#084C61',
+              backgroundColor: '#303f9f',
               boxShadow: 6,
               transform: 'scale(1.1)',
               '&::after': {
@@ -129,7 +140,7 @@ export default function Flashcards() {
                 bottom: '100%',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                backgroundColor: '#0A4D68',
+                backgroundColor: '#303f9f',
                 color: '#FFF4DD',
                 padding: '4px 8px',
                 borderRadius: '4px',
@@ -146,7 +157,7 @@ export default function Flashcards() {
               bottom: '100%',
               left: '50%',
               transform: 'translateX(-50%)',
-              backgroundColor: '#0A4D68',
+              backgroundColor: '#303f9f',
               color: '#FFF4DD',
               padding: '4px 8px',
               borderRadius: '4px',
@@ -173,7 +184,7 @@ export default function Flashcards() {
               <CardActionArea onClick={() => handleCardClick(collection.name)}>
                 <CardContent>
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-                    <Typography variant="h5">{collection.name}</Typography>
+                    <Typography variant="h5" sx={{ color: '#750908' }}>{collection.name}</Typography>
                   </Box>
                 </CardContent>
               </CardActionArea>
@@ -185,5 +196,6 @@ export default function Flashcards() {
       )}
     </Grid>
   </Container>
+  </Box>
   );
 }

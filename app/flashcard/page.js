@@ -51,14 +51,25 @@ export default function Flashcard() {
   }
 
   return (
+    <Box sx={{
+      backgroundImage: 'url(https://static.vecteezy.com/system/resources/previews/022/100/132/non_2x/abstract-pink-color-polygon-background-design-abstract-geometric-origami-style-with-gradient-presentation-website-backdrop-cover-banner-pattern-template-free-vector.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      minHeight: '100vh',
+      width: '100vw',
+      padding: 0,
+      margin: 0,
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
     <Container maxWidth="100vw">
-      <AppBar sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
+      <AppBar sx={{ bgcolor: "rgba(255, 255, 255, 0.8)", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
             FlashBook
           </Typography>
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+            <Typography variant="h5" sx={{ color: "black", fontWeight: 'bold'  }}>
               {collection.name}
             </Typography>
           </Box>
@@ -67,7 +78,7 @@ export default function Flashcard() {
           </SignedIn>
         </Toolbar>
       </AppBar>
-      <Grid container spacing={3} sx={{ mt: 4 }}>
+      <Grid container spacing={3} sx={{ mt: 8 }}>
 
               {flashcards.map((flashcard) => (
                 <Grid item xs={12} sm={6} md={4} key={flashcard.id}>
@@ -102,12 +113,12 @@ export default function Flashcard() {
                         }}>
                           <div>
                             <div>
-                              <Typography variant='h5' component='div'>
+                              <Typography variant='h5' component='div' sx={{ color: '#750908' }}>
                                 {flashcard.front}
                               </Typography>
                             </div>
                             <div>
-                              <Typography variant='h5' component='div'>
+                              <Typography variant='h5' component='div' sx={{ color: '#750908' }}>
                                 {flashcard.back}
                               </Typography>
                             </div>
@@ -120,5 +131,6 @@ export default function Flashcard() {
               ))}
       </Grid>
     </Container>
+    </Box>
   );
 }
