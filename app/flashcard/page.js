@@ -1,11 +1,11 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useUser, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useSearchParams } from "next/navigation";
-import { Card, Grid, Container, Typography, Box, Button, CardActionArea, CardContent } from '@mui/material';
+import { Card, Grid, Container, Typography, Box, Button, CardActionArea, CardContent, AppBar, Toolbar } from '@mui/material';
 
 export default function Flashcard() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -52,6 +52,21 @@ export default function Flashcard() {
 
   return (
     <Container maxWidth="100vw">
+      <AppBar sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+            FlashBook
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+            <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+              {collection.name}
+            </Typography>
+          </Box>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </Toolbar>
+      </AppBar>
       <Grid container spacing={3} sx={{ mt: 4 }}>
 
               {flashcards.map((flashcard) => (

@@ -1,7 +1,7 @@
 "use client";
 
-import { useUser } from '@clerk/nextjs'
-import { Card, Grid, Container, Dialog, TextField, Typography, Box, Paper, Button, CardActionArea, CardContent, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { useUser, SignedIn, UserButton } from '@clerk/nextjs'
+import { Card, AppBar, Toolbar, Grid, Container, Dialog, TextField, Typography, Box, Paper, Button, CardActionArea, CardContent, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { writeBatch, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation'
 import { db } from '@/firebase';
@@ -95,6 +95,21 @@ export default function Generate() {
 
   return(
     <Container macWidth="md">
+      <AppBar sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+          FlashBook
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+            Generate New Flashcard
+          </Typography>
+        </Box>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </Toolbar>
+    </AppBar>
       <Box sx={{
         mt: 4, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'
       }}>

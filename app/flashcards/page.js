@@ -1,11 +1,12 @@
 "use client";
 
-import { useUser } from '@clerk/nextjs'
+import { useUser, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 import { collection, doc, getDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, AppBar, Toolbar } from '@mui/material';
 
 export default function Flashcards() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -83,8 +84,88 @@ export default function Flashcards() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <Typography variant="h4" gutterBottom>My Flashcard Collections</Typography>
-    <Grid container spacing={3} justifyContent="center">
+    <AppBar sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+          FlashBook
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h6" sx={{ color: "black", fontWeight: 'bold'  }}>
+            MY COLLECTION
+          </Typography>
+        </Box>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </Toolbar>
+    </AppBar>
+    <Box 
+        position="fixed" 
+        bottom={20} 
+        right={80} 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center"
+      >
+        <Button
+          variant="contained"
+          sx={{ 
+            backgroundColor: '#0A4D68', 
+            color: '#FFF4DD', 
+            borderRadius: '50%', 
+            width: 60, 
+            height: 60, 
+            minWidth: 0, 
+            padding: 0,
+            boxShadow: 3,
+            position: 'relative',
+            '&:hover': {
+              backgroundColor: '#084C61',
+              boxShadow: 6,
+              transform: 'scale(1.1)',
+              '&::after': {
+                content: '"GENERATE NEW FLASHCARD"',
+                position: 'absolute',
+                bottom: '100%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#0A4D68',
+                color: '#FFF4DD',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                whiteSpace: 'nowrap',
+                fontSize: '0.75rem',
+                boxShadow: 3,
+                opacity: 1,
+                visibility: 'visible',
+              },
+            },
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: '100%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#0A4D68',
+              color: '#FFF4DD',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              whiteSpace: 'nowrap',
+              fontSize: '0.75rem',
+              boxShadow: 3,
+              opacity: 0,
+              visibility: 'hidden',
+              transition: 'opacity 0.3s, visibility 0.3s',
+            },
+          }}
+          onClick={() => {
+            router.push('/generate')
+          }}
+        >
+          <AddIcon />
+        </Button>
+      </Box>
+    <Grid sx={{ mt: 8 }} container spacing={3} justifyContent="center">
       {flashcardCollections.length > 0 ? (
         flashcardCollections.map((collection, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
@@ -96,17 +177,6 @@ export default function Flashcards() {
                   </Box>
                 </CardContent>
               </CardActionArea>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mt: 2, mx: 1 }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleOpenDialog(collection.name);
-                }}
-              >
-                Delete
-              </Button>
             </Card>
           </Grid>
         ))
@@ -114,21 +184,6 @@ export default function Flashcards() {
         <Typography sx={{ mt: 2 }} variant="body1">No flashcard collections available.</Typography>
       )}
     </Grid>
-
-    <Dialog open={openDialog} onClose={handleCloseDialog}>
-      <DialogTitle>Confirm Deletion</DialogTitle>
-      <DialogContent>
-        <Typography>Are you sure you want to delete the collection "{collectionToDelete}"?</Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseDialog} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleDelete} color="error">
-          Delete
-        </Button>
-      </DialogActions>
-    </Dialog>
   </Container>
   );
 }

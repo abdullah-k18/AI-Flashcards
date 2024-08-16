@@ -1,8 +1,12 @@
+"use client"
+
 import Link from "next/link";
-import { SignIn } from "@clerk/nextjs";
+import { SignIn, useUser } from "@clerk/nextjs";
+import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 import { AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
 
-export default function SignUpPage() {
+export default function SignInPage() {
   return (
     <Container display="flex"
     flexDirection="column"

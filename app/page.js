@@ -6,7 +6,7 @@ export default function Home() {
     <Container maxWidth="100vw" sx={{ minHeight: "100vh", padding: "0", background: "linear-gradient(to bottom, #f5f5dc, #fafafa)" }}>
       <AppBar position="static" sx={{ bgcolor: "#e0e0e0", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)'  }}>
         <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, color: "#333" }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, color: "black" }}>
             FlashBook
           </Typography>
           <SignedOut>
