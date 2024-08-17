@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import getStripe from '@/utils/get-stripe'
+
 import { useSearchParams } from "next/navigation"
-import { CircularProgress, Typography } from "@mui/material"
+import { CircularProgress, Typography, Container, Box } from "@mui/material"
 
 const resultPage = () => {
     const router = useRouter()

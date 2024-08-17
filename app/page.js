@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { loadStripe } from "@stripe/stripe-js";
 
 const getStripe = () => {
-  return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 };
 
 export default function Home() {
