@@ -3,9 +3,63 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Container, AppBar, Toolbar, Typography, Button, Box, Grid } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { loadStripe } from "@stripe/stripe-js"; // Make sure you install this package
+
+// Load your Stripe publishable key
+const getStripe = () => {
+  return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+};
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    try {
+      // Fetch the checkout session from the server
+      const response = await fetch('/api/checkout_session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: [{ id: "pro_subscription" }]  // Replace this with the relevant data
+        })
+      });
+
+      // Check if the response was successful
+      if (!response.ok) {
+        console.error('Failed to create checkout session');
+        return;
+      }
+
+      // Parse the response JSON safely
+      const checkoutSession = await response.json();
+
+      // Ensure the session ID is available
+      if (!checkoutSession.id) {
+        console.error('Checkout session ID is missing');
+        return;
+      }
+
+      // Load the Stripe object
+      const stripe = await getStripe();
+
+      // Redirect to Stripe Checkout
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: checkoutSession.id,
+      });
+
+      // Handle any Stripe errors
+      if (error) {
+        console.warn(error.message);
+      }
+
+    } catch (error) {
+      // Handle fetch or parsing errors
+      console.error('Error during checkout process:', error);
+    }
+  };
+  
   return (
     <Container maxWidth="100vw" sx={{ 
       minHeight: "100vh", 
@@ -80,17 +134,14 @@ export default function Home() {
           ))}
         </Grid>
       </Box>
-      <Box sx={{ my: 6, textAlign: 'center' }}>
-        <Typography variant="h4" component="h2" gutterBottom sx={{ color: 'black' }}>
+      <Box sx={{ my: 6, textAlign: "center" }}>
+        <Typography variant="h4" component="h2" gutterBottom>
           Pricing
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {[
-            { plan: 'Basic', price: '$5 / month', description: 'Access to basic flashcard features and limited storage' },
-            { plan: 'Pro', price: '$10 / month', description: 'Access to pro flashcard features and unlimited storage' }
-          ].map((pricing, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <Box sx={{
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
                 p: 3,
                 border: '2px solid #ccc',
                 borderRadius: 2,
@@ -104,14 +155,56 @@ export default function Home() {
                   transform: 'scale(1.05)',
                   borderColor: 'rgba(255, 255, 255, 0.8)',
                 }
-              }}>
-                <Typography variant="h5" gutterBottom sx={{ color: '#333' }}>{pricing.plan}</Typography>
-                <Typography variant="h6" gutterBottom sx={{ color: '#555' }}>{pricing.price}</Typography>
-                <Typography sx={{ color: '#555' }}>{pricing.description}</Typography>
-                <Button variant="contained" sx={{ mt: 2, bgcolor: "#3f51b5", color: "#fff", '&:hover': { bgcolor: "#303f9f" } }}>Choose {pricing.plan}</Button>
-              </Box>
-            </Grid>
-          ))}
+              }}
+            >
+              <Typography variant="h5" gutterBottom>
+                Basic
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                Free
+              </Typography>
+              <Typography>
+                {" "}
+                Generate 5 Flashcards Daily
+              </Typography>
+              <Button variant="contained" color="primary" sx={{ mt: 2, bgcolor: "#3f51b5", '&:hover': { bgcolor: "#303f9f" } }}>
+                Choose Basic
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                p: 3,
+                border: '2px solid #ccc',
+                borderRadius: 2,
+                borderTop: '3px solid rgba(255, 255, 255, 0.8)',
+                borderLeft: '3px solid rgba(255, 255, 255, 0.8)',
+                textAlign: 'center',
+                bgcolor: 'rgba(255, 255, 255, 0.8)',
+                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.05)',
+                transition: 'transform 0.3s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  borderColor: 'rgba(255, 255, 255, 0.8)',
+                }
+              }}
+            >
+              <Typography variant="h5" gutterBottom>
+                Pro
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                $5 / month
+              </Typography>
+              <Typography>
+                {" "}
+                Generate Unlimited Flashcards Daily
+              </Typography>
+              <Button variant="contained" color="primary" sx={{ mt: 2, bgcolor: "#3f51b5", '&:hover': { bgcolor: "#303f9f" } }} onClick={handleSubmit}>
+                Choose Pro  
+              </Button>
+            </Box>
+          </Grid>
         </Grid>
       </Box>
     </Container>

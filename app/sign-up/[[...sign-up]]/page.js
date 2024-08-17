@@ -15,7 +15,7 @@ export default function SignUpPage() {
       display: 'flex',
       flexDirection: 'column',
     }}>
-    <Container sx={{ minHeight: "100vh", padding: "0", background: "#f5f5dc" }}>
+    <Container sx={{ minHeight: "100vh", padding: "0", background: "rgba(255, 255, 255, 0.8)" }}>
       <AppBar position="static" sx={{ bgcolor: "rgba(255, 255, 255, 0.8)", boxShadow: 'none', width: "100vw", left: 0, marginLeft: 'calc(-50vw + 50%)'  }}>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1, color: "#333" }}>
@@ -38,7 +38,7 @@ export default function SignUpPage() {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        sx={{ mt: 4, padding: 4, borderRadius: 2, background: "#f5f5dc" }}
+        sx={{ mt: 4, padding: 4, borderRadius: 2, background: "rgba(255, 255, 255, 0.8)" }}
       >
         <SignUp />
       </Box>
