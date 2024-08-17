@@ -98,9 +98,9 @@ export default function Home() {
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           {[
-            { title: 'Easy Book Input', description: 'Simply input your book text and let our AI create flashcards for you.' },
-            { title: 'Smart Flashcards', description: 'Our AI breaks down your book into concise flashcards, perfect for studying.' },
-            { title: 'Accessible Anywhere', description: 'Access your flashcards from any device at any time. Study anywhere, anytime.' }
+            { title: 'Easy Book Input', description: 'Simply input your book title with author name and let our AI generate flashcards for you.' },
+            { title: 'Smart Flashcards', description: 'Our AI breaks down your book into concise flashcards.' },
+            { title: 'Accessible Anywhere', description: 'Access your flashcards from any device at any time.' }
           ].map((feature, index) => (
             <Grid item xs={12} md={4} key={index}>
               <Box sx={{
