@@ -3,9 +3,8 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Container, AppBar, Toolbar, Typography, Button, Box, Grid } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { loadStripe } from "@stripe/stripe-js"; // Make sure you install this package
+import { loadStripe } from "@stripe/stripe-js";
 
-// Load your Stripe publishable key
 const getStripe = () => {
   return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 };
@@ -15,47 +14,39 @@ export default function Home() {
 
   const handleSubmit = async () => {
     try {
-      // Fetch the checkout session from the server
       const response = await fetch('/api/checkout_session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          items: [{ id: "pro_subscription" }]  // Replace this with the relevant data
+          items: [{ id: "pro_subscription" }]
         })
       });
 
-      // Check if the response was successful
       if (!response.ok) {
         console.error('Failed to create checkout session');
         return;
       }
 
-      // Parse the response JSON safely
       const checkoutSession = await response.json();
 
-      // Ensure the session ID is available
       if (!checkoutSession.id) {
         console.error('Checkout session ID is missing');
         return;
       }
 
-      // Load the Stripe object
       const stripe = await getStripe();
 
-      // Redirect to Stripe Checkout
       const { error } = await stripe.redirectToCheckout({
         sessionId: checkoutSession.id,
       });
 
-      // Handle any Stripe errors
       if (error) {
         console.warn(error.message);
       }
 
     } catch (error) {
-      // Handle fetch or parsing errors
       console.error('Error during checkout process:', error);
     }
   };
