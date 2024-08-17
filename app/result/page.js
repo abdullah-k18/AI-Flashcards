@@ -9,9 +9,16 @@ const ResultContent = () => {
   const searchParams = useSearchParams();
   const session_id = searchParams.get("session_id");
 
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState(null);
   const [error, setError] = useState(null);
+=======
+const ResultPage = () => {
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const session_id = searchParams.get('session_id')
+>>>>>>> 11b670738275b2e5b89a61961415baea1bb62817
 
   useEffect(() => {
     const fetchCheckoutSession = async () => {
@@ -36,6 +43,7 @@ const ResultContent = () => {
       }
     };
 
+<<<<<<< HEAD
     fetchCheckoutSession();
   }, [session_id]);
 
@@ -82,3 +90,6 @@ const ResultContent = () => {
 };
 
 export default ResultContent;
+=======
+export default ResultPage
+>>>>>>> 11b670738275b2e5b89a61961415baea1bb62817
